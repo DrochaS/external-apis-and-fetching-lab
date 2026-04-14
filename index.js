@@ -9,6 +9,7 @@ const fetchBtn = document.getElementById('fetchAlertsBtn');
 const errorDiv = document.getElementById('error-message');
 const loadingIndicator = document.getElementById('loading-indicator');
 const alertsContainer = document.getElementById('alerts-container');
+const alertsDisplay = document.getElementById('alerts-display');
 
 // Helper function to validate state abbreviation
 function isValidStateAbbreviation(state) {
@@ -47,7 +48,9 @@ function clearInput() {
 // Function to display alerts on the page
 function displayAlerts(data, stateAbbr) {
     // Clear previous alerts
-    alertsContainer.innerHTML = '';
+    alertsDisplay.innerHTML = '';
+    
+    const titleText = data.title ? `${data.title}: ${data.features ? data.features.length : 0}` : `Current watches, warnings, and advisories for ${stateAbbr}: ${data.features ? data.features.length : 0}`;
     
     // Get the state name from the first alert or use abbreviation
     let stateName = stateAbbr;
@@ -67,10 +70,10 @@ function displayAlerts(data, stateAbbr) {
     const summaryDiv = document.createElement('div');
     summaryDiv.className = 'summary';
     summaryDiv.innerHTML = `
-        <h2>📋 Current watches, warnings, and advisories for ${stateName}: ${alertCount}</h2>
+        <h2>📋 ${titleText}</h2>
         <p>${alertCount === 0 ? 'No active alerts at this time.' : 'Click on any alert for more details.'}</p>
     `;
-    alertsContainer.appendChild(summaryDiv);
+    alertsDisplay.appendChild(summaryDiv);
     
     // If there are alerts, create the list
     if (alertCount > 0) {
@@ -111,13 +114,13 @@ function displayAlerts(data, stateAbbr) {
             alertsList.appendChild(alertItem);
         });
         
-        alertsContainer.appendChild(alertsList);
+        alertsDisplay.appendChild(alertsList);
     } else {
         // Show no alerts message
         const noAlertsDiv = document.createElement('div');
         noAlertsDiv.className = 'no-alerts';
         noAlertsDiv.innerHTML = '✅ No active weather alerts for this state. Stay safe!';
-        alertsContainer.appendChild(noAlertsDiv);
+        alertsDisplay.appendChild(noAlertsDiv);
     }
 }
 
@@ -185,7 +188,7 @@ async function fetchWeatherAlerts(state) {
         showError(`❌ ${error.message}`);
         
         // Clear any existing alerts
-        alertsContainer.innerHTML = '';
+        alertsDisplay.innerHTML = '';
         
     } finally {
         // Always hide loading indicator

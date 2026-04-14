@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Alerts - US State Alerts</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -17,7 +17,7 @@
             <input 
                 type="text" 
                 id="stateInput" 
-                placeholder="Enter state abbreviation (e.g., CA, TX, NY)"
+                placeholder="Enter state abbreviation"
                 maxlength="2"
                 autocomplete="off"
             >
@@ -29,7 +29,9 @@
             <div class="spinner"></div>
             <p>Fetching weather alerts...</p>
         </div>
-        <div id="alerts-container" class="alerts-container"></div>
+        <div id="alerts-container" class="alerts-container">
+            <div id="alerts-display"></div>
+        </div>
     </div>
 
     <script src="index.js"></script>
